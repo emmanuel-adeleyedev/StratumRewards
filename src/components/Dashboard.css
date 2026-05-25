@@ -1,0 +1,129 @@
+/* App Shell */
+.app-shell {
+  min-height: 100vh;
+  background: #0a0e1a;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Navbar */
+.navbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem 2rem;
+  border-bottom: 1px solid #1e2d45;
+  background: #0d1424;
+}
+
+.navbar-brand {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.brand-icon {
+  width: 42px;
+  height: 42px;
+  background: #6366f1;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+  color: white;
+}
+
+.navbar-brand h1 {
+  color: #e2e8f0;
+  font-size: 1rem;
+  font-weight: 700;
+  margin: 0 0 2px;
+}
+
+.navbar-brand span {
+  color: #64748b;
+  font-size: 0.78rem;
+}
+
+.navbar-right {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.navbar-user {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: #94a3b8;
+  font-size: 0.875rem;
+}
+
+.navbar-user i { font-size: 18px; }
+
+.logout-btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: transparent;
+  border: 1px solid #1e2d45;
+  border-radius: 6px;
+  padding: 6px 14px;
+  color: #94a3b8;
+  font-size: 0.875rem;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.logout-btn:hover {
+  border-color: #f87171;
+  color: #f87171;
+}
+
+/* Tab Nav */
+.tab-nav {
+  display: flex;
+  gap: 0;
+  border-bottom: 1px solid #1e2d45;
+  background: #0d1424;
+  padding: 0 2rem;
+  overflow-x: auto;
+}
+
+.tab-btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: none;
+  border: none;
+  border-bottom: 2px solid transparent;
+  padding: 14px 16px;
+  color: #64748b;
+  font-size: 0.8rem;
+  cursor: pointer;
+  white-space: nowrap;
+  margin-bottom: -1px;
+  transition: color 0.2s;
+  letter-spacing: 0.03em;
+}
+
+.tab-btn i { font-size: 16px; }
+
+.tab-btn:hover { color: #94a3b8; }
+
+.tab-btn.active {
+  color: #6366f1;
+  border-bottom-color: #6366f1;
+}
+
+/* Tab Content */
+.tab-content {
+  flex: 1;
+  padding: 2rem;
+}
+
+.placeholder {
+  color: #64748b;
+  font-size: 0.9rem;
+}
