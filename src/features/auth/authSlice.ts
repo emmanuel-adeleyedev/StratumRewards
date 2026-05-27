@@ -2,7 +2,7 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 import axios from 'axios'
 
-const BASE_URL = '/api/v1'
+const BASE_URL = import.meta.env.VITE_API_URL + '/api/v1'
 
 interface AuthState{
   token: string | null
