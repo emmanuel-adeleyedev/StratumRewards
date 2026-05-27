@@ -45,7 +45,6 @@ export default function OverviewDashboard() {
           <div>
             <span className="stat-label">Authenticated Profile</span>
             <p className="stat-value">{firstName} {lastName}</p>
-            <span className="stat-sub">{id?.slice(0, 24)}...</span>
           </div>
         </div>
 
