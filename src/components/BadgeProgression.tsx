@@ -24,7 +24,7 @@ export default function BadgeProgression() {
 
       <div className="badges-grid">
 
-        {/* Left — Active badge card */}
+        {/* Active badge card */}
         <div className="badge-card">
           <span className="card-label">Active Tier Status</span>
           <div className="badge-header">
@@ -56,7 +56,7 @@ export default function BadgeProgression() {
           )}
         </div>
 
-        {/* Right — Badge rank structure */}
+        {/*Badge rank structure */}
         <div className="badge-card">
           <h3>
             <i className="ti ti-list-stars" aria-hidden="true"></i>

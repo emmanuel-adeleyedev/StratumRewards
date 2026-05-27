@@ -15,7 +15,6 @@ export default function AchievementsTracker() {
     if (id) dispatch(fetchAchievements(id))
   }, [id])
 
-  // Combine all achievements for display
   const allAchievements = [
     ...unlocked.map((a) => ({ ...a, isUnlocked: true })),
     ...nextAvailable.map((a) => ({ ...a, isUnlocked: false })),
@@ -27,7 +26,7 @@ export default function AchievementsTracker() {
     return true
   })
 
-  // Next milestones — one per type
+  // Next milestones
   const nextPurchase = nextAvailable.find((a) => a.type === 'purchases_count')
   const nextSpending = nextAvailable.find((a) => a.type === 'amount_spent')
 

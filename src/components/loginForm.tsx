@@ -10,10 +10,8 @@ export default function LoginForm() {
 
   const [tab, setTab] = useState<'login' | 'register'>('login')
 
-  // Login form state
   const [loginData, setLoginData] = useState({ username: '', password: '' })
 
-  // Register form state
   const [registerData, setRegisterData] = useState({
     first_name: '', last_name: '', username: '',
     email: '', password: '', password_confirmation: ''
@@ -22,7 +20,6 @@ export default function LoginForm() {
   const handleLogin = async () => {
     const result = await dispatch(loginUser(loginData))
     if (loginUser.fulfilled.match(result)) {
-      // fetch profile right after login succeeds
       dispatch(fetchUser())
     }
   }
@@ -68,10 +65,8 @@ export default function LoginForm() {
           </button>
         </div>
 
-        {/* Error message */}
         {error && <p className="auth-error">{error}</p>}
 
-        {/* Login form */}
         {tab === 'login' && (
           <div className="auth-form">
             <div className="form-row">

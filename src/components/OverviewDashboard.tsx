@@ -79,7 +79,7 @@ export default function OverviewDashboard() {
       {/* Main content grid */}
       <div className="overview-grid">
 
-        {/* Left — Badge status */}
+        {/*Badge status */}
         <div className="overview-card">
           <span className="card-label">Active Tier Status</span>
           <div className="badge-header">
@@ -111,7 +111,7 @@ export default function OverviewDashboard() {
           )}
         </div>
 
-        {/* Middle — Purchase simulation */}
+        {/* Purchase simulation */}
         <div className="overview-card">
           <h3>Transaction Simulation</h3>
           <p className="card-sub">POST /api/v1/purchases • Live Sanctum Endpoint</p>
@@ -147,7 +147,7 @@ export default function OverviewDashboard() {
           </p>
         </div>
 
-        {/* Right — Recent transactions */}
+        {/* Recent transactions */}
         <div className="overview-card">
           <div className="tx-header">
             <div>
