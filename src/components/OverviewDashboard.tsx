@@ -7,7 +7,7 @@ const QUICK_AMOUNTS = [25, 100, 500, 5000]
 
 export default function OverviewDashboard() {
   const dispatch = useAppDispatch()
-  const { id, firstName, lastName, username, email } = useAppSelector((state) => state.user)
+  const { id, firstName, lastName} = useAppSelector((state) => state.user)
   const {
     currentBadge, nextBadge, remainingToNextBadge,
     purchases, purchasing, unlocked
