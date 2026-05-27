@@ -12,7 +12,7 @@ type Tab = 'overview' | 'achievements' | 'badges'
 
 export default function Dashboard() {
     const dispatch = useAppDispatch()
-    const { firstName, lastName, username } = useAppSelector((state) => state.user)
+    const { firstName, lastName} = useAppSelector((state) => state.user)
     const [activeTab, setActiveTab] = useState<Tab>('overview')
 
     const handleLogout = () => {
