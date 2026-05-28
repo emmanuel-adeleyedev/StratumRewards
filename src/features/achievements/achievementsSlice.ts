@@ -36,6 +36,17 @@ interface AchievementsState {
   error: string | null
 }
 
+const getInitialPurchases = (): Purchase[] => {
+  try {
+    const userId = localStorage.getItem('userId')
+    if (!userId) return []
+    const saved = localStorage.getItem(`purchases_${userId}`)
+    return saved ? JSON.parse(saved) : []
+  } catch (e) {
+    return []
+  }
+}
+
 // 2. Starting values
 const initialState: AchievementsState = {
   unlocked: [],
@@ -43,7 +54,7 @@ const initialState: AchievementsState = {
   currentBadge: null,
   nextBadge: null,
   remainingToNextBadge: 0,
-  purchases: [],
+  purchases: getInitialPurchases(),
   loading: false,
   purchasing: false,
   error: null,
@@ -111,6 +122,15 @@ const achievementsSlice = createSlice({
         state.currentBadge       = badges.current_badge
         state.nextBadge          = badges.next_badge
         state.remainingToNextBadge = badges.remaining_to_unlock_next_badge
+        try {
+          const userId = localStorage.getItem('userId')
+          if (userId) {
+            const saved = localStorage.getItem(`purchases_${userId}`)
+            state.purchases = saved ? JSON.parse(saved) : []
+          }
+        } catch (e) {
+          state.purchases = []
+        }
       })
       .addCase(fetchAchievements.rejected, (state, action) => {
         state.loading = false
@@ -130,6 +150,14 @@ const achievementsSlice = createSlice({
           amount: action.payload.amount,
           time: action.payload.time,
         })
+        try {
+          const userId = localStorage.getItem('userId')
+          if (userId) {
+            localStorage.setItem(`purchases_${userId}`, JSON.stringify(state.purchases))
+          }
+        } catch (e) {
+          console.error('Failed to save purchases to localStorage', e)
+        }
       })
       .addCase(makePurchase.rejected, (state, action) => {
         state.purchasing = false
