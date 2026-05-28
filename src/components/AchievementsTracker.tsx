@@ -8,12 +8,22 @@ type Filter = 'all' | 'unlocked' | 'locked'
 export default function AchievementsTracker() {
   const dispatch = useAppDispatch()
   const { id } = useAppSelector((state) => state.user)
-  const { unlocked, nextAvailable, loading } = useAppSelector((state) => state.achievements)
+  const { unlocked, nextAvailable, loading, purchases } = useAppSelector((state) => state.achievements)
   const [filter, setFilter] = useState<Filter>('all')
 
   useEffect(() => {
     if (id) dispatch(fetchAchievements(id))
   }, [id])
+
+  const purchasesCount = purchases.length
+  const totalSpent = purchases.reduce((sum, p) => sum + p.amount, 0)
+
+  const getAchievementProgress = (a: { type: 'purchases_count' | 'amount_spent'; threshold: number; isUnlocked?: boolean }) => {
+    if (a.isUnlocked) return 100
+    const current = a.type === 'purchases_count' ? purchasesCount : totalSpent
+    const percentage = Math.round((current / a.threshold) * 100)
+    return Math.min(100, Math.max(0, percentage))
+  }
 
   const allAchievements = [
     ...unlocked.map((a) => ({ ...a, isUnlocked: true })),
@@ -29,6 +39,12 @@ export default function AchievementsTracker() {
   // Next milestones
   const nextPurchase = nextAvailable.find((a) => a.type === 'purchases_count')
   const nextSpending = nextAvailable.find((a) => a.type === 'amount_spent')
+
+  const nextPurchaseProgress = nextPurchase ? getAchievementProgress(nextPurchase) : 0
+  const nextPurchaseRemaining = nextPurchase ? Math.max(0, nextPurchase.threshold - purchasesCount) : 0
+
+  const nextSpendingProgress = nextSpending ? getAchievementProgress(nextSpending) : 0
+  const nextSpendingRemaining = nextSpending ? Math.max(0, nextSpending.threshold - totalSpent) : 0
 
   return (
     <div className="achievements">
@@ -48,12 +64,12 @@ export default function AchievementsTracker() {
               </span>
             </div>
             <div className="progress-bar">
-              <div className="progress-fill" style={{ width: '80%' }} />
+              <div className="progress-fill" style={{ width: `${nextPurchaseProgress}%` }} />
             </div>
             <div className="milestone-footer">
-              <span>80% Complete</span>
+              <span>{nextPurchaseProgress}% Complete</span>
               <span className="milestone-hint">
-                Need 1 more purchase till achievement
+                Need {nextPurchaseRemaining} more purchase{nextPurchaseRemaining === 1 ? '' : 's'} till achievement
               </span>
             </div>
           </div>
@@ -72,12 +88,12 @@ export default function AchievementsTracker() {
               </span>
             </div>
             <div className="progress-bar">
-              <div className="progress-fill" style={{ width: '50%' }} />
+              <div className="progress-fill" style={{ width: `${nextSpendingProgress}%` }} />
             </div>
             <div className="milestone-footer">
-              <span>50% Complete</span>
+              <span>{nextSpendingProgress}% Complete</span>
               <span className="milestone-hint">
-                Need ${nextSpending.threshold.toLocaleString()} spend remaining
+                Need ${nextSpendingRemaining.toLocaleString()} spend remaining
               </span>
             </div>
           </div>
@@ -143,7 +159,7 @@ export default function AchievementsTracker() {
             </div>
 
             <div className="progress-bar" style={{ marginTop: '8px' }}>
-              <div className="progress-fill" style={{ width: a.isUnlocked ? '100%' : '50%' }} />
+              <div className="progress-fill" style={{ width: `${getAchievementProgress(a)}%` }} />
             </div>
 
             <span className="achievement-threshold">

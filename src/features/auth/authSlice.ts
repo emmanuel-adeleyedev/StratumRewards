@@ -12,7 +12,7 @@ interface AuthState{
 }
 
 const initialState:AuthState = {
-  token: localStorage.getItem("token") || null,
+  token: localStorage.getItem("token") ,
   userId: localStorage.getItem("userId") || null,
   loading: false,
   error: null,
@@ -23,10 +23,8 @@ export const loginUser = createAsyncThunk(
   async (credentials: { username: string; password: string }, { rejectWithValue }) => {
     try {
       const res = await axios.post(`${BASE_URL}/login`, credentials)
-      console.log('LOGIN RESPONSE:', res.data)  // ← add this
       return res.data
     } catch (err: any) {
-      console.log('LOGIN ERROR:', err.response)  // ← and this
       return rejectWithValue(err.response?.data?.message || 'Login failed')
     }
   }
@@ -56,14 +54,15 @@ export const registerUser = createAsyncThunk(
 
 export const logoutUser = createAsyncThunk(
   'auth/logout',
-  async (_, { getState, rejectWithValue }) => {
-    const state = getState() as { auth: AuthState }
+  async (token: string | null, { rejectWithValue }) => {
     try {
-      await axios.post(
-        `${BASE_URL}/logout`,
-        {},
-        { headers: { Authorization: `Bearer ${state.auth.token}` } }
-      )
+      if (token) {
+        await axios.post(
+          `${BASE_URL}/logout`,
+          {},
+          { headers: { Authorization: `Bearer ${token}` } }
+        )
+      }
     } catch (err: any) {
       return rejectWithValue('Logout failed')
     }
@@ -112,7 +111,7 @@ const authSlice = createSlice({
       })
 
       // LOGOUT
-      .addCase(logoutUser.fulfilled, (state) => {
+      .addCase(logoutUser.pending, (state) => {
         state.token = null
         state.userId = null
         localStorage.removeItem('token')
